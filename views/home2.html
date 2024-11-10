@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panier - Boutique en ligne</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar { background-color: #007bff; }
+        .navbar a { color: white !important; }
+        .navbar a:hover { color: #f8f9fa !important; text-decoration: underline; }
+        .main-container { padding: 80px 20px; }
+        .welcome-header { text-align: center; color: #343a40; margin-bottom: 40px; }
+        .cart-item { border-bottom: 1px solid #ddd; padding: 10px 0; }
+        .footer { text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">HANB</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="/home">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link active" href="/home2">Panier (<span id="cart-count">0</span>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Se déconnecter</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-container container">
+    <div class="welcome-header">
+        <h1>Votre Panier</h1>
+        <p>Vous avez ajouté les produits suivants à votre panier :</p>
+    </div>
+
+    <!-- Liste des articles du panier -->
+    <div id="cart-items" class="row">
+        <!-- Les articles seront ajoutés ici via JavaScript -->
+    </div>
+
+    <!-- Total -->
+    <div id="total-price" class="text-end">
+        <h4>Total: 0 Fcfa</h4>
+    </div>
+
+    <div class="text-center">
+        <button class="btn btn-primary" onclick="clearCart()">Vider le panier</button>
+        <button class="btn btn-success" onclick="checkout()">Passer à la caisse</button>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2024 Mon Projet. Tous droits réservés.</p>
+</div>
+
+<!-- Script JavaScript pour gérer le panier -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Fonction pour charger les articles du panier depuis localStorage
+    function loadCart() {
+        const cart = JSON.parse(localStorage.getItem('cart')) || [];
+        const cartCount = document.getElementById('cart-count');
+        const cartItemsContainer = document.getElementById('cart-items');
+        const totalPriceElement = document.getElementById('total-price');
+        let totalPrice = 0;
+        
+        // Vider les éléments du panier affichés
+        cartItemsContainer.innerHTML = '';
+
+        // Afficher chaque produit dans le panier
+        cart.forEach(item => {
+            const cartItemElement = document.createElement('div');
+            cartItemElement.classList.add('col-md-12', 'cart-item');
+            cartItemElement.innerHTML = `
+                <div class="d-flex justify-content-between">
+                    <span>${item.product}</span>
+                    <span>${item.price} Fcfa</span>
+                </div>
+            `;
+            cartItemsContainer.appendChild(cartItemElement);
+            totalPrice += item.price;
+        });
+
+        // Mettre à jour le total
+        totalPriceElement.innerHTML = `<h4>Total: ${totalPrice} Fcfa</h4>`;
+        cartCount.innerText = cart.length;
+    }
+
+    // Fonction pour vider le panier
+    function clearCart() {
+        localStorage.removeItem('cart');
+        loadCart();
+    }
+
+    // Fonction pour gérer le passage à la caisse
+    function checkout() {
+        alert("La fonctionnalité de paiement est en développement.");
+        // Vous pouvez rediriger vers une page de paiement ici si nécessaire.
+    }
+
+    // Charger le panier lorsque la page se charge
+    window.onload = loadCart;
+</script>
+
+</body>
+</html>

@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boutique en ligne - Accueil</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        .navbar { background-color: #0d61ea; }
+        .navbar a { color: white !important; }
+        .navbar a:hover { color: #f8f9fa !important; text-decoration: underline; }
+        .main-container { padding: 80px 20px; }
+        .welcome-header { text-align: center; color: #141414; margin-bottom: 40px; }
+        .product-card { margin-bottom: 30px; }
+        .product-card img { max-height: 200px; object-fit: cover; }
+        .btn-custom { background-color: #0e48ba; color: white; border: none; width: 100%; padding: 15px; font-size: 1.1rem; border-radius: 8px; }
+        .footer { text-align: center; margin-top: 50px; }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#">HANB</a>
+        <div class="collapse navbar-collapse">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link active" href="/home">Accueil</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">Panier (<span id="cart-count">0</span>)</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/logout">Se déconnecter</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Content -->
+<div class="main-container container">
+    <div class="welcome-header">
+        <h1>Bienvenue sur notre boutique pour le test de sessions utilisateur avec redis, <span id="username"></span> !</h1>
+        <p>Explorez nos produits et ajoutez-les à votre panier.</p>
+    </div>
+
+    <!-- Liste des produits -->
+    <div class="row">
+        <div class="col-md-4 product-card">
+            <div class="card">
+                <img src="mac.jpg" class="card-img-top" alt="MacBook">
+                <div class="card-body">
+                    <h5 class="card-title">MacBook Pro</h5>
+                    <p class="card-text">Prix: 450.000 Fcfa</p>
+                    <button class="btn btn-primary add-to-cart" data-product="MacBook Pro" data-price="1500">Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 product-card">
+            <div class="card">
+                <img src="hp.jpg" class="card-img-top" alt="HP Laptop">
+                <div class="card-body">
+                    <h5 class="card-title">HP Pavilion</h5>
+                    <p class="card-text">Prix: 250.000Fcfa</p>
+                    <button class="btn btn-primary add-to-cart" data-product="HP Pavilion" data-price="800">Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 product-card">
+            <div class="card">
+                <img src="lenovo.jpg" class="card-img-top" alt="Lenovo Laptop">
+                <div class="card-body">
+                    <h5 class="card-title">Lenovo ThinkPad</h5>
+                    <p class="card-text">Prix: 290.000Fcfa</p>
+                    <button class="btn btn-primary add-to-cart" data-product="Lenovo ThinkPad" data-price="1000">Ajouter au panier</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<div class="footer">
+    <p>&copy; 2024 Mon Projet. Tous droits réservés.</p>
+</div>
+
+<!-- Script JavaScript pour gérer le panier -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    // Récupérer le nom d'utilisateur depuis une variable côté serveur
+    var username = "username"; // Exemple de variable serveur injectée
+
+    document.getElementById("username").innerText = username;
+
+    // Fonction pour mettre à jour le panier
+    function updateCart(product, price) {
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        cart.push({ product: product, price: price });
+        localStorage.setItem('cart', JSON.stringify(cart));
+        document.getElementById('cart-count').innerText = cart.length;
+    }
+
+    // Ajout des événements "Ajouter au panier"
+    document.querySelectorAll('.add-to-cart').forEach(button => {
+        button.addEventListener('click', function() {
+            const product = this.getAttribute('data-product');
+            const price = this.getAttribute('data-price');
+            updateCart(product, price);
+
+        });
+    });
+</script>
+
+</body>
+</html>
